@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "clean": "rimraf testjs",
+    "clean": "rimraf e2ejs",
     "clean-build": "npm run clean && npm run build",
-    "test": "protractor ./testjs/protractor.conf.js"
+    "test": "protractor ./e2ejs/protractor.conf.js"
   },
   "keywords": [],
   "author": "",

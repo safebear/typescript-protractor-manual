@@ -12,7 +12,7 @@ export const config: Config = {
     frameworkPath: require.resolve("protractor-cucumber-framework"),
 
     specs: [
-      "../test/features/*.feature",
+      "../e2e/features/*.feature",
     ],
 
     onPrepare: () => {
@@ -23,7 +23,7 @@ export const config: Config = {
         compiler: "ts:ts-node/register",
         format: "json:.tmp/results.json",
         profile: false,
-        require: "../typeScript/features/step_definitions/*.steps.js",
+        require: "./step_definitions/*.steps.js",
         tags: false,
         "no-source": true,
     },
