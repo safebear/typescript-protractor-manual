@@ -10,6 +10,10 @@ const homePage: HomePage = new HomePage();
 const addProductPage: AddProductPage = new AddProductPage();
 const viewProductPage: ViewProductPage = new ViewProductPage();
 
+// Import chai and the `expect` command.
+const chai = require("chai").use(require("chai-as-promised"));
+const expect = chai.expect;
+
 // This will run before each Scenario
 Before(function() {
 
@@ -23,16 +27,35 @@ Before(function() {
 });
 
 Given('a product doesn\'t exist', function (dataTable) {
-  // Write code here that turns the phrase above into concrete actions
-  return 'pending';
+
+  /*
+   * This is where we turn our our test data contained in the table in the Feature File
+   * (and now a 'dataTable') into an array of products ('arrayOfProducts')
+   */
+  const arrayOfProducts = dataTable.hashes();
+  /*
+   * Then we take the first product in the array (at index 0)
+   * and store it in 'product' object located in the World ('this')
+   * so we can use it for all steps of the scenario
+   */
+  this.product = arrayOfProducts[0];
+
+  // Here we make sure that the product hasn't already been created before we start our test.
+  return expect(this.checks.isElementOnPage(homePage.productInTable(this.product))).to.eventually.be.false;
 });
 
 When('I add the product', function () {
-  // Write code here that turns the phrase above into concrete actions
-  return 'pending';
+  this.actions.click(homePage.addProduct);
+  this.actions.type(addProductPage.productName, this.product.name);
+  this.actions.type(addProductPage.productDescription, this.product.description);
+  this.actions.type(addProductPage.productPrice, this.product.price);
+
+  return this.actions.click(addProductPage.submitButton);
 });
 
 Then('the product is created', function () {
-  // Write code here that turns the phrase above into concrete actions
-  return 'pending';
+
+  // Expect that the product has now been created and can be seen on the View Product Page.
+  return expect(this.waits.waitForElement(viewProductPage.productName(this.product))).to.eventually.be.true;
+
 });
