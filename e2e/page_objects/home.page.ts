@@ -1,9 +1,10 @@
-import { $, by, element, ElementFinder } from "protractor";
+import { $, by, element, ElementFinder, ElementArrayFinder } from "protractor";
 
 export class HomePage {
 
   public addProduct: ElementFinder;
   public productInTable: (product: myLib.Product) => ElementFinder;
+  public productsInTable: (product: myLib.Product) => ElementArrayFinder;
 
   constructor() {
 
@@ -20,6 +21,16 @@ export class HomePage {
      */
     this.productInTable = (product: myLib.Product) => {
         return element(by.cssContainingText(".mat-cell", product.name));
+    };
+
+    /**
+     * Find multiple 'Products' in the table with the same name
+     *
+     * @param Product - this is the product we want to find in the table
+     * @returns an array of ElementFinders for each product in the table
+     */
+    this.productsInTable = (product: myLib.Product) => {
+      return element.all(by.cssContainingText(".mat-cell", product.name));
     };
 
   }

@@ -1,10 +1,13 @@
-import { Before, Given, Then, When} from "cucumber";
+import { Before, Given, setDefaultTimeout, Then, When } from "cucumber";
 import { AddProductPage } from "../page_objects/add-product.page";
 import { HomePage } from "../page_objects/home.page";
 import { ViewProductPage } from "../page_objects/view-product.page";
 import { Actions } from "../support/actions";
 import { Checks } from "../support/checks";
 import { Waits } from "../support/waits";
+
+// Set Default Timeout for 1 minute (60,000 milliseconds)
+setDefaultTimeout(60 * 1000);
 
 const homePage: HomePage = new HomePage();
 const addProductPage: AddProductPage = new AddProductPage();
