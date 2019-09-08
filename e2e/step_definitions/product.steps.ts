@@ -1,10 +1,7 @@
-import { Before, Given, setDefaultTimeout, Then, When } from "cucumber";
+import { Given, setDefaultTimeout, Then, When } from "cucumber";
 import { AddProductPage } from "../page_objects/add-product.page";
 import { HomePage } from "../page_objects/home.page";
 import { ViewProductPage } from "../page_objects/view-product.page";
-import { Actions } from "../support/actions";
-import { Checks } from "../support/checks";
-import { Waits } from "../support/waits";
 
 // Set Default Timeout for 1 minute (60,000 milliseconds)
 setDefaultTimeout(60 * 1000);
@@ -17,19 +14,7 @@ const viewProductPage: ViewProductPage = new ViewProductPage();
 const chai = require("chai").use(require("chai-as-promised"));
 const expect = chai.expect;
 
-// This will run before each Scenario
-Before(function() {
-
-  this.actions = new Actions();
-  this.checks = new Checks();
-  this.waits = new Waits();
-
-  // Opens the website to the default URL in the 'protractor.config.ts' file
-  this.actions.openWebsite();
-
-});
-
-Given('a product doesn\'t exist', function (dataTable) {
+Given('a product doesn\'t exist', async function (dataTable) {
 
   /*
    * This is where we turn our our test data contained in the table in the Feature File
@@ -42,6 +27,14 @@ Given('a product doesn\'t exist', function (dataTable) {
    * so we can use it for all steps of the scenario
    */
   this.product = arrayOfProducts[0];
+
+  /*
+   * This removes all of the previous data
+   */
+  while (await this.actions.countElements(homePage.productsInTable(this.product)) > 0) {
+   this.actions.clickOnFirstElement(homePage.productsInTable(this.product));
+   this.actions.click(viewProductPage.deleteButton);
+  }
 
   // Here we make sure that the product hasn't already been created before we start our test.
   return expect(this.checks.isElementOnPage(homePage.productInTable(this.product))).to.eventually.be.false;

@@ -10,4 +10,4 @@ Feature: Product Management
 
    Scenario: A product is added
       When I add the product
-      Then the product is created
+      Then the product is created  

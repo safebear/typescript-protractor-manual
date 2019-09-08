@@ -4,9 +4,8 @@ export const config: Config = {
 
     seleniumAddress: "http://127.0.0.1:4444/wd/hub",
 
-    SELENIUM_PROMISE_MANAGER: false, // needed if async/await is used anywhere in the spec - may no longer be needed?
-
-    baseUrl: "http://localhost:8080/",
+    // baseUrl: "http://localhost:8080/",
+    baseUrl: "http://automate.safebear.co.uk:8080",
 
     framework: "custom",
     frameworkPath: require.resolve("protractor-cucumber-framework"),
@@ -23,7 +22,7 @@ export const config: Config = {
         compiler: "ts:ts-node/register",
         format: "json:.tmp/results.json",
         profile: false,
-        require: "./step_definitions/*.steps.js",
+        require: ["./step_definitions/*.steps.js", "./support/hooks.js"],
         tags: false,
         "no-source": true,
     },
